@@ -2,7 +2,7 @@ import { Socket } from "socket.io"
 
 type SocketId = string
 
-enum SocketEvent {
+export enum SocketEvent {
 	JOIN_REQUEST = "join-request",
 	JOIN_ACCEPTED = "join-accepted",
 	USER_JOINED = "user-joined",
@@ -26,10 +26,21 @@ enum SocketEvent {
 	REQUEST_DRAWING = "request-drawing",
 	SYNC_DRAWING = "sync-drawing",
 	DRAWING_UPDATE = "drawing-update",
+	VIDEO_OFFER = "video-offer",
+	VIDEO_ANSWER = "video-answer",
+	ICE_CANDIDATE = "ice-candidate",
+	VIDEO_JOIN = "video-join",
+	VIDEO_LEAVE = "video-leave",
+	VIDEO_TOGGLE = "video-toggle",
+	AUDIO_TOGGLE = "audio-toggle",
+	CALL_INVITE = 'call:invite',
+	CALL_ACCEPT = 'call:accept',
+	CALL_DECLINE = 'call:decline',
+	CALL_ENDED = 'call:ended'
 }
 
 interface SocketContext {
 	socket: Socket
 }
 
-export { SocketEvent, SocketContext, SocketId }
+export { SocketContext, SocketId }

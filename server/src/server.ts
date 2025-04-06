@@ -55,6 +55,24 @@ function getUserBySocketId(socketId: SocketId): User | null {
 	return user
 }
 
+interface CallInviteData {
+	callId: string;
+	fromUserId: string;
+	toUserId: string;
+	roomId: string;
+}
+
+interface CallResponseData {
+	callId: string;
+	userId: string;
+	roomId: string;
+}
+
+interface CallEndData {
+	callId: string;
+	roomId: string;
+}
+
 io.on("connection", (socket) => {
 	// Handle user actions
 	socket.on(SocketEvent.JOIN_REQUEST, ({ roomId, username }) => {
@@ -258,6 +276,76 @@ io.on("connection", (socket) => {
 			snapshot,
 		})
 	})
+
+	// Video call events
+	socket.on(SocketEvent.VIDEO_JOIN, ({ roomId }) => {
+		console.log(`User ${socket.id} joined video call in room ${roomId}`);
+		socket.to(roomId).emit(SocketEvent.VIDEO_JOIN, { userId: socket.id });
+	});
+
+	socket.on(SocketEvent.VIDEO_LEAVE, ({ roomId }) => {
+		console.log(`User ${socket.id} left video call in room ${roomId}`);
+		socket.to(roomId).emit(SocketEvent.VIDEO_LEAVE, { userId: socket.id });
+	});
+
+	socket.on(SocketEvent.VIDEO_OFFER, ({ offer, userId }) => {
+		console.log(`User ${socket.id} sent video offer to ${userId}`);
+		io.to(userId).emit(SocketEvent.VIDEO_OFFER, { offer, userId: socket.id });
+	});
+
+	socket.on(SocketEvent.VIDEO_ANSWER, ({ answer, userId }) => {
+		console.log(`User ${socket.id} sent video answer to ${userId}`);
+		io.to(userId).emit(SocketEvent.VIDEO_ANSWER, { answer, userId: socket.id });
+	});
+
+	socket.on(SocketEvent.ICE_CANDIDATE, ({ candidate, userId }) => {
+		console.log(`User ${socket.id} sent ICE candidate to ${userId}`);
+		io.to(userId).emit(SocketEvent.ICE_CANDIDATE, { candidate, userId: socket.id });
+	});
+
+	socket.on(SocketEvent.VIDEO_TOGGLE, ({ enabled, roomId }) => {
+		console.log(`User ${socket.id} ${enabled ? 'enabled' : 'disabled'} video in room ${roomId}`);
+		socket.to(roomId).emit(SocketEvent.VIDEO_TOGGLE, { userId: socket.id, enabled });
+	});
+
+	socket.on(SocketEvent.AUDIO_TOGGLE, ({ enabled, roomId }) => {
+		console.log(`User ${socket.id} ${enabled ? 'enabled' : 'disabled'} audio in room ${roomId}`);
+		socket.to(roomId).emit(SocketEvent.AUDIO_TOGGLE, { userId: socket.id, enabled });
+	});
+
+	// Call invitation events
+	socket.on(SocketEvent.CALL_INVITE, (data: CallInviteData) => {
+		console.log(`User ${socket.id} invited ${data.toUserId} to call ${data.callId} in room ${data.roomId}`);
+		io.to(data.toUserId).emit(SocketEvent.CALL_INVITE, { callId: data.callId, fromUserId: data.fromUserId });
+	});
+
+	socket.on(SocketEvent.CALL_ACCEPT, (data: CallResponseData) => {
+		console.log(`User ${socket.id} accepted call ${data.callId} in room ${data.roomId}`);
+		// Notify the caller that the call was accepted
+		const room = getUsersInRoom(data.roomId);
+		room.forEach(user => {
+			if (user.socketId !== socket.id) {
+				io.to(user.socketId).emit(SocketEvent.CALL_ACCEPT, { userId: socket.id });
+			}
+		});
+	});
+
+	socket.on(SocketEvent.CALL_DECLINE, (data: CallResponseData) => {
+		console.log(`User ${socket.id} declined call ${data.callId} in room ${data.roomId}`);
+		// Notify the caller that the call was declined
+		const room = getUsersInRoom(data.roomId);
+		room.forEach(user => {
+			if (user.socketId !== socket.id) {
+				io.to(user.socketId).emit(SocketEvent.CALL_DECLINE, { userId: socket.id });
+			}
+		});
+	});
+
+	socket.on(SocketEvent.CALL_ENDED, (data: CallEndData) => {
+		console.log(`Call ${data.callId} ended in room ${data.roomId}`);
+		// Notify all users in the room that the call has ended
+		socket.to(data.roomId).emit(SocketEvent.CALL_ENDED);
+	});
 })
 
 const PORT = process.env.PORT || 3000

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-rnd": "^10.5.2",
+    "webrtc-adapter": "^9.0.1"
+  }
+}

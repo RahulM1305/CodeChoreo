@@ -50,7 +50,9 @@ function EditorPage() {
     return (
         <SplitterComponent>
             <Sidebar />
-            <WorkSpace/>
+            <div className="flex flex-col h-full">
+                <WorkSpace />
+            </div>
         </SplitterComponent>
     )
 }
