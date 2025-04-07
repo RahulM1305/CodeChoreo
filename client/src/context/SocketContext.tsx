@@ -41,7 +41,13 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
     const socket: Socket = useMemo(
         () =>
             io(BACKEND_URL, {
-                reconnectionAttempts: 2,
+                reconnectionAttempts: 5,
+                reconnectionDelay: 1000,
+                reconnectionDelayMax: 5000,
+                timeout: 20000,
+                autoConnect: true,
+                transports: ['websocket', 'polling'],
+                forceNew: true
             }),
         [],
     )
@@ -49,12 +55,17 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
     const handleError = useCallback(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (err: any) => {
-            console.log("socket error", err)
+            console.error("Socket connection error:", err)
             setStatus(USER_STATUS.CONNECTION_FAILED)
             toast.dismiss()
-            toast.error("Failed to connect to the server")
+            toast.error("Connection to server failed. Retrying...")
+            
+            // Attempt to reconnect
+            if (!socket.connected) {
+                socket.connect()
+            }
         },
-        [setStatus],
+        [setStatus, socket],
     )
 
     const handleUsernameExist = useCallback(() => {

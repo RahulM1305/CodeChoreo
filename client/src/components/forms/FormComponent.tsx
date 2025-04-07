@@ -6,7 +6,8 @@ import { ChangeEvent, FormEvent, useEffect, useRef } from "react"
 import { toast } from "react-hot-toast"
 import { useLocation, useNavigate } from "react-router-dom"
 import { v4 as uuidv4 } from "uuid"
-import logo from "@/assets/logo_green.png"
+import logo from "@/assets/new_logo.png"
+import cardBorder from "@/assets/card-1.svg"
 
 const FormComponent = () => {
     const location = useLocation()
@@ -89,7 +90,14 @@ const FormComponent = () => {
     }, [currentUser, location.state?.redirect, navigate, setStatus, socket, status])
 
     return (
-        <div className="flex w-full max-w-[500px] flex-col items-center justify-center gap-4 p-4 sm:w-[500px] sm:p-8">
+        <div className="flex w-full max-w-[500px] flex-col items-center justify-center gap-4 p-4 sm:w-[500px] sm:p-8 bg-[#0f0d15]"
+            style={{
+                backgroundImage: `url(${cardBorder})`,
+                backgroundSize: '100% 100%',
+                backgroundRepeat: 'no-repeat',
+                padding: '2rem'
+            }}
+            >
             <img src={logo} alt="Logo" className="w-full"/>
             <form onSubmit={joinRoom} className="flex w-full flex-col gap-4">
                 <input
@@ -111,7 +119,7 @@ const FormComponent = () => {
                 />
                 <button
                     type="submit"
-                    className="mt-2 w-full rounded-md bg-primary px-8 py-3 text-lg font-semibold text-black"
+                    className="mt-2 w-full rounded-md bg-green-500 px-8 py-3 text-lg font-semibold text-black"
                 >
                     Join
                 </button>

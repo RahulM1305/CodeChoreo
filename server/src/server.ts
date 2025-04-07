@@ -21,10 +21,27 @@ const server = http.createServer(app)
 const io = new Server(server, {
 	cors: {
 		origin: "*",
+		methods: ["GET", "POST"],
+		credentials: true
 	},
 	maxHttpBufferSize: 1e8,
 	pingTimeout: 60000,
+	pingInterval: 25000,
+	connectTimeout: 45000,
+	transports: ['websocket', 'polling'],
+	allowEIO3: true,
+	cookie: false
 })
+
+// Add error handling for the server
+server.on('error', (error) => {
+	console.error('Server error:', error);
+});
+
+// Add error handling for Socket.IO
+io.engine.on("connection_error", (err) => {
+	console.error('Socket.IO connection error:', err);
+});
 
 let userSocketMap: User[] = []
 
