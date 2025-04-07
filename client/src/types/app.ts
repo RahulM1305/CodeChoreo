@@ -21,7 +21,9 @@ interface AppContext {
     setActivityState: (state: ACTIVITY_STATE) => void
     drawingData: DrawingData
     setDrawingData: (data: DrawingData) => void
+    currentRoom: { id: string } | null
+    setCurrentRoom: (room: { id: string } | null) => void
 }
 
 export { ACTIVITY_STATE }
-export { AppContext, DrawingData }
+export type { AppContext, DrawingData }

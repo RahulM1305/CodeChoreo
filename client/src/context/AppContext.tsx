@@ -4,7 +4,7 @@ import {
     DrawingData,
 } from "@/types/app"
 import { RemoteUser, USER_STATUS, User } from "@/types/user"
-import { ReactNode, createContext, useContext, useState } from "react"
+import { ReactNode, createContext, useContext, useState, useEffect } from "react"
 
 const AppContext = createContext<AppContextType | null>(null)
 
@@ -25,10 +25,20 @@ function AppContextProvider({ children }: { children: ReactNode }) {
         username: "",
         roomId: "",
     })
+    const [currentRoom, setCurrentRoom] = useState<{ id: string } | null>(null)
     const [activityState, setActivityState] = useState<ACTIVITY_STATE>(
         ACTIVITY_STATE.CODING,
     )
     const [drawingData, setDrawingData] = useState<DrawingData>(null)
+
+    // Update currentRoom when currentUser.roomId changes
+    useEffect(() => {
+        if (currentUser.roomId) {
+            setCurrentRoom({ id: currentUser.roomId })
+        } else {
+            setCurrentRoom(null)
+        }
+    }, [currentUser.roomId])
 
     return (
         <AppContext.Provider
@@ -43,6 +53,8 @@ function AppContextProvider({ children }: { children: ReactNode }) {
                 setActivityState,
                 drawingData,
                 setDrawingData,
+                currentRoom,
+                setCurrentRoom,
             }}
         >
             {children}
@@ -50,5 +62,4 @@ function AppContextProvider({ children }: { children: ReactNode }) {
     )
 }
 
-export { AppContextProvider }
-export default AppContext
+export default AppContextProvider

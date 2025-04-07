@@ -26,17 +26,11 @@ enum SocketEvent {
     REQUEST_DRAWING = "request-drawing",
     SYNC_DRAWING = "sync-drawing",
     DRAWING_UPDATE = "drawing-update",
-    VIDEO_JOIN = "video-join",
-    VIDEO_LEAVE = "video-leave",
-    VIDEO_OFFER = "video-offer",
-    VIDEO_ANSWER = "video-answer",
-    ICE_CANDIDATE = "ice-candidate",
-    VIDEO_TOGGLE = "video-toggle",
-    AUDIO_TOGGLE = "audio-toggle",
-    CALL_INVITE = "call-invite",
-    CALL_ACCEPT = "call-accept",
-    CALL_DECLINE = "call-decline",
-    CALL_ENDED = "call-ended",
+    VIDEO_CALL_STARTED = "video-call-started",
+    VIDEO_CALL_REQUEST = "video-call-request",
+    VIDEO_CALL_ACCEPTED = "video-call-accepted",
+    VIDEO_CALL_REJECTED = "video-call-rejected",
+    VIDEO_CALL_ENDED = "video-call-ended"
 }
 
 interface SocketContext {

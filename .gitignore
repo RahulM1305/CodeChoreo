@@ -1,3 +1,5 @@
 start.bat
 TODO.md
 node_modules
+.env
+dist

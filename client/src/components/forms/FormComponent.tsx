@@ -97,7 +97,7 @@ const FormComponent = () => {
                 backgroundRepeat: 'no-repeat',
                 padding: '2rem'
             }}
-            >
+        >
             <img src={logo} alt="Logo" className="w-full"/>
             <form onSubmit={joinRoom} className="flex w-full flex-col gap-4">
                 <input

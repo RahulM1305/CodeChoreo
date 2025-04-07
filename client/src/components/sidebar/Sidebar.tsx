@@ -10,9 +10,6 @@ import { VIEWS } from "@/types/view"
 import { IoCodeSlash } from "react-icons/io5"
 import { MdOutlineDraw } from "react-icons/md"
 import cn from "classnames"
-import { Tooltip } from 'react-tooltip'
-import { useState } from 'react'
-import { tooltipStyles } from "./tooltipStyles"
 
 function Sidebar() {
     const {
@@ -26,10 +23,8 @@ function Sidebar() {
     const { activityState, setActivityState } = useAppContext()
     const { socket } = useSocket()
     const { isMobile } = useWindowDimensions()
-    const [showTooltip, setShowTooltip] = useState(true)
 
     const changeState = () => {
-        setShowTooltip(false)
         if (activityState === ACTIVITY_STATE.CODING) {
             setActivityState(ACTIVITY_STATE.DRAWING)
             socket.emit(SocketEvent.REQUEST_DRAWING)
@@ -73,12 +68,12 @@ function Sidebar() {
                     icon={viewIcons[VIEWS.CLIENTS]}
                 />
                 <SidebarButton
-                    viewName={VIEWS.SETTINGS}
-                    icon={viewIcons[VIEWS.SETTINGS]}
+                    viewName={VIEWS.VIDEO_CALL}
+                    icon={viewIcons[VIEWS.VIDEO_CALL]}
                 />
                 <SidebarButton
-                    viewName={VIEWS.VIDEO}
-                    icon={viewIcons[VIEWS.VIDEO]}
+                    viewName={VIEWS.SETTINGS}
+                    icon={viewIcons[VIEWS.SETTINGS]}
                 />
 
                 {/* Button to change activity state coding or drawing */}
@@ -86,7 +81,6 @@ function Sidebar() {
                     <button
                         className="justify-cente flex items-center  rounded p-1.5 transition-colors duration-200 ease-in-out hover:bg-[#3D404A]"
                         onClick={changeState}
-                        onMouseEnter={() => setShowTooltip(true)}
                         data-tooltip-id="activity-state-tooltip"
                         data-tooltip-content={
                             activityState === ACTIVITY_STATE.CODING
@@ -100,18 +94,6 @@ function Sidebar() {
                             <IoCodeSlash size={30} />
                         )}
                     </button>
-                    {showTooltip && (
-                        <Tooltip
-                            id="activity-state-tooltip"
-                            place="right"
-                            offset={15}
-                            className="!z-50"
-                            style={tooltipStyles}
-                            noArrow={false}
-                            positionStrategy="fixed"
-                            float={true}
-                        />
-                    )}
                 </div>
             </div>
             <div
