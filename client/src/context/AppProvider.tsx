@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { AppContextProvider } from "./AppContext.js"
+import AppContextProvider from "./AppContext.js"
 import { ChatContextProvider } from "./ChatContext.jsx"
 import { FileContextProvider } from "./FileContext.jsx"
 import { RunCodeContextProvider } from "./RunCodeContext.jsx"
