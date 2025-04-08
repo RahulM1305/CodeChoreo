@@ -62,6 +62,16 @@ const FormComponent = () => {
             if (currentUser.username.length === 0) {
                 toast.success("Enter your username")
             }
+        } else {
+            // Check URL parameters for roomId
+            const urlParams = new URLSearchParams(window.location.search)
+            const roomIdFromUrl = urlParams.get('roomId')
+            if (roomIdFromUrl) {
+                setCurrentUser({ ...currentUser, roomId: roomIdFromUrl })
+                if (currentUser.username.length === 0) {
+                    toast.success("Enter your username")
+                }
+            }
         }
     }, [currentUser, location.state?.roomId, setCurrentUser])
 
