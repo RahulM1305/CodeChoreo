@@ -1,1 +1,0 @@
-import{d as e}from"./@babel-BgzKHD3d.js";var t=function(){var i;return!!(typeof window<"u"&&window!==null&&(i="(-webkit-min-device-pixel-ratio: 1.25), (min--moz-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 1.25dppx)",window.devicePixelRatio>1.25||window.matchMedia&&window.matchMedia(i).matches))};const n=e(t);export{n as r};
