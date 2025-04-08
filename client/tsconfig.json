@@ -5,6 +5,8 @@
         "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "module": "ESNext",
         "skipLibCheck": true,
+        "allowJs": true,
+        "checkJs": false, 
 
         /* Bundler mode */
         "moduleResolution": "Node",

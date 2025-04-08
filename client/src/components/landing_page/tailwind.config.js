@@ -1,18 +1,12 @@
-import type { Config } from "tailwindcss";
+/** @type {import('tailwindcss').Config} */
 import { fontFamily } from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
 
-const config: Config = {
-  content: [
-    "./index.html",
-    "./*.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./src/components/landing_page/**/*.{js,ts,jsx,tsx}"  // Add this line
-  ],
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
-        // From landing page
         color: {
           1: "#AC6AFF",
           2: "#FFC876",
@@ -39,20 +33,11 @@ const config: Config = {
           12: "#2E2A41",
           13: "#6C7275",
         },
-
-        // From code editor project
-        dark: "#212429",
-        darkHover: "#3D404A",
-        light: "#f5f5f5",
-        primary: "#39E079",
-        danger: "#ef4444",
       },
       fontFamily: {
-        // Merged font families
         sans: ["var(--font-sora)", ...fontFamily.sans],
         code: "var(--font-code)",
         grotesk: "var(--font-grotesk)",
-        poppins: ["Poppins", "sans-serif"],
       },
       letterSpacing: {
         tagline: ".15em",
@@ -86,15 +71,11 @@ const config: Config = {
         "conic-gradient":
           "conic-gradient(from 225deg, #FFC876, #79FFF7, #9F53FF, #FF98E2, #FFC876)",
       },
-      animation: {
-        "up-down": "up-down 2s ease-in-out infinite alternate",
-      },
     },
   },
   plugins: [
     plugin(function ({ addBase, addComponents, addUtilities }) {
       addBase({});
-
       addComponents({
         ".container": {
           "@apply max-w-[77.5rem] mx-auto px-5 md:px-10 lg:px-15 xl:max-w-[87.5rem]":
@@ -141,7 +122,6 @@ const config: Config = {
           "@apply font-code text-xs font-bold uppercase tracking-wider": {},
         },
       });
-
       addUtilities({
         ".tap-highlight-color": {
           "-webkit-tap-highlight-color": "rgba(0, 0, 0, 0)",
@@ -150,44 +130,3 @@ const config: Config = {
     }),
   ],
 };
-
-export default config;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// /** @type {import('tailwindcss').Config} */
-// export default {
-//     content: ["./src/**/*.{jsx,tsx}", "./*.html"],
-//     theme: {
-//         extend: {
-//             colors: {
-//                 dark: "#212429",
-//                 darkHover: "#3D404A",
-//                 light: "#f5f5f5",
-//                 primary: "#39E079",
-//                 danger: "#ef4444",
-//             },
-//             fontFamily: {
-//                 poppins: ["Poppins", "sans-serif"],
-//             },
-//             animation: {
-//                 "up-down": "up-down 2s ease-in-out infinite alternate",
-//             },
-//         },
-//     },
-//     plugins: [],
-// }

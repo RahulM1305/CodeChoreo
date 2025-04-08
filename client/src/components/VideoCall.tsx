@@ -37,7 +37,6 @@ const VideoCall: React.FC<VideoCallProps> = ({
   isInitiator = false,
   callerUsername = ''
 }) => {
-  const [client, setClient] = useState<IAgoraRTCClient | null>(null);
   const [localAudioTrack, setLocalAudioTrack] = useState<IMicrophoneAudioTrack | null>(null);
   const [localVideoTrack, setLocalVideoTrack] = useState<ICameraVideoTrack | null>(null);
   const [screenTrack, setScreenTrack] = useState<ILocalVideoTrack | null>(null);
@@ -108,7 +107,6 @@ const VideoCall: React.FC<VideoCallProps> = ({
       console.log('Initializing Agora client');
       const agoraClient = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
       clientRef.current = agoraClient;
-      setClient(agoraClient);
 
       // Handle remote user events
       agoraClient.on('user-published', async (user, mediaType) => {
