@@ -47,7 +47,9 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
                 timeout: 20000,
                 autoConnect: true,
                 transports: ['websocket', 'polling'],
-                forceNew: true
+                forceNew: true,
+                secure: true,
+                rejectUnauthorized: false
             }),
         [],
     )
