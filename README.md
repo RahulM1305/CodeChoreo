@@ -1,5 +1,7 @@
 # CodeChoreo
 
+Link: https://codechoreo.onrender.com
+
 A real-time collaborative code editor with AI assistance, built for seamless remote coding sessions.
 
 ![CodeChoreo Logo](client/src/assets/new_logo.png)
