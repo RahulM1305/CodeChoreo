@@ -5,7 +5,7 @@ const RoomInfo = () => {
     const { currentUser } = useAppContext()
 
     const handleCopyRoomId = () => {
-        const roomUrl = `${window.location.origin}${window.location.pathname}?roomId=${currentUser.roomId}`
+        const roomUrl = `${window.location.origin}/editor/${currentUser.roomId}`
         navigator.clipboard.writeText(roomUrl)
         toast.success("Room link copied to clipboard!")
     }

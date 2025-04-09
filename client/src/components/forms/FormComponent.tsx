@@ -1,7 +1,7 @@
 import { useAppContext } from "@/context/AppContext"
 import { useSocket } from "@/context/SocketContext"
 import { SocketEvent } from "@/types/socket"
-import { USER_STATUS } from "@/types/user"
+import { USER_STATUS, User } from "@/types/user"
 import { ChangeEvent, FormEvent, useEffect, useRef } from "react"
 import { toast } from "react-hot-toast"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -56,24 +56,24 @@ const FormComponent = () => {
     }
 
     useEffect(() => {
-        if (currentUser.roomId.length > 0) return
-        if (location.state?.roomId) {
-            setCurrentUser({ ...currentUser, roomId: location.state.roomId })
+        if (currentUser.roomId.length > 0) return;
+        
+        // Check URL parameters for roomId
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomIdFromUrl = urlParams.get('roomId');
+        
+        if (roomIdFromUrl) {
+            setCurrentUser({ ...currentUser, roomId: roomIdFromUrl });
             if (currentUser.username.length === 0) {
-                toast.success("Enter your username")
+                toast.success("Enter your username");
             }
-        } else {
-            // Check URL parameters for roomId
-            const urlParams = new URLSearchParams(window.location.search)
-            const roomIdFromUrl = urlParams.get('roomId')
-            if (roomIdFromUrl) {
-                setCurrentUser({ ...currentUser, roomId: roomIdFromUrl })
-                if (currentUser.username.length === 0) {
-                    toast.success("Enter your username")
-                }
+        } else if (location.state?.roomId) {
+            setCurrentUser({ ...currentUser, roomId: location.state.roomId });
+            if (currentUser.username.length === 0) {
+                toast.success("Enter your username");
             }
         }
-    }, [currentUser, location.state?.roomId, setCurrentUser])
+    }, [currentUser, location.state?.roomId, setCurrentUser]);
 
     useEffect(() => {
         if (status === USER_STATUS.DISCONNECTED && !socket.connected) {
