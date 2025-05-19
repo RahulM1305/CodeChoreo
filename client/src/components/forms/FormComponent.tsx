@@ -1,7 +1,7 @@
 import { useAppContext } from "@/context/AppContext"
 import { useSocket } from "@/context/SocketContext"
 import { SocketEvent } from "@/types/socket"
-import { USER_STATUS, User } from "@/types/user"
+import { USER_STATUS } from "@/types/user"
 import { ChangeEvent, FormEvent, useEffect, useRef } from "react"
 import { toast } from "react-hot-toast"
 import { useLocation, useNavigate } from "react-router-dom"
