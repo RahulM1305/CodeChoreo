@@ -16,9 +16,14 @@ function UsersView() {
     const { socket } = useSocket()
 
     const copyURL = async () => {
-        const url = window.location.href
+        const currentPath = window.location.pathname
+        const roomId = currentPath.split("/").pop() // Get the last segment which should be the roomId
+
+        // Create a shareable URL that points to the home page with roomId as query parameter
+        const baseUrl = window.location.origin
+        const shareableUrl = `${baseUrl}/home?roomId=${roomId}`
         try {
-            await navigator.clipboard.writeText(url)
+            await navigator.clipboard.writeText(shareableUrl)
             toast.success("URL copied to clipboard")
         } catch (error) {
             toast.error("Unable to copy URL to clipboard")
@@ -27,9 +32,14 @@ function UsersView() {
     }
 
     const shareURL = async () => {
-        const url = window.location.href
+        const currentPath = window.location.pathname
+        const roomId = currentPath.split("/").pop()
+
+        // Create a shareable URL that points to the home page with roomId as query parameter
+        const baseUrl = window.location.origin
+        const shareableUrl = `${baseUrl}/home?roomId=${roomId}`
         try {
-            await navigator.share({ url })
+            await navigator.share({ url: shareableUrl })
         } catch (error) {
             toast.error("Unable to share URL")
             console.log(error)
